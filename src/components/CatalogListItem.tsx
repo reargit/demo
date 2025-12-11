@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, Image } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
 import type { CatalogItem } from '../types/catalog';
-import { colors, spacing, typography, focus } from '../theme';
+import { colors, spacing, typography } from '../theme';
+import Thumbnail from './Thumbnail';
 
 export interface CatalogListItemProps {
     item: CatalogItem;
@@ -23,14 +24,7 @@ export const CatalogListItem: React.FC<CatalogListItemProps> = ({ item, onPress,
             onBlur={() => setFocused(false)}
             focusable={hasTVPreferredFocus}
         >
-            <Image
-                source={{ uri: item.thumbnail }}
-                style={[
-                    styles.thumbnail,
-                    focused ? styles.thumbnailFocused : null,
-                ]}
-                resizeMode="cover"
-            />
+            <Thumbnail focused={focused} uri={item.thumbnail} />
             <Text style={styles.itemTitle} numberOfLines={1}>{item.title}</Text>
         </TouchableOpacity>
     );
@@ -49,21 +43,6 @@ const styles = StyleSheet.create({
     itemFocused: {
         borderColor: colors.border.focus,
         backgroundColor: colors.background.overlay,
-        shadowColor: '#000',
-        shadowOpacity: focus.shadowOpacity,
-        shadowRadius: focus.shadowRadius,
-        shadowOffset: focus.shadowOffset,
-        elevation: focus.elevation,
-    },
-    thumbnail: {
-        width: '100%',
-        height: 120,
-        borderRadius: 6,
-        marginBottom: spacing.sm,
-        backgroundColor: colors.background.overlay,
-    },
-    thumbnailFocused: {
-        transform: [{ scale: focus.scale }],
     },
     itemTitle: {
         ...typography.body,

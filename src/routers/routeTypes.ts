@@ -1,3 +1,4 @@
+import { CatalogItem } from "../types/catalog";
 
 export enum Routes {
   Home = 'Home',
@@ -6,5 +7,5 @@ export enum Routes {
 
 export type RootStackParamList = {
   [Routes.Home]: undefined;
-  [Routes.Details]: { itemId: string; title: string };
+  [Routes.Details]: { item: CatalogItem };
 };

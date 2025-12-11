@@ -23,10 +23,7 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
     const ITEM_HEIGHT = 180;
 
     const handlePress = useCallback((item: CatalogItem) => {
-        navigation.navigate(Routes.Details, {
-            itemId: item.id,
-            title: item.title,
-        });
+        navigation.navigate(Routes.Details, { item });
     }, [navigation]);
 
     const renderItem = useCallback(({ item, index }: { item: CatalogItem; index: number }) => (
