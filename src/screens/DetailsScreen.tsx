@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     imageContainer: {
         position: 'relative',
         width: '100%',
-        marginBottom: spacing.lg,
     },
     image: {
         borderRadius: 12,

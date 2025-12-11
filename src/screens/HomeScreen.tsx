@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.welcomeText}>Welcome to TV Demo!</Text>
+            <Text style={styles.welcomeText}>Welcome</Text>
             {error && (
                 <View style={styles.errorBox} accessibilityRole="alert">
                     <Text style={styles.errorText}>Failed to load catalog</Text>
