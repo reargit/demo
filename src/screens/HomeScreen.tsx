@@ -10,6 +10,7 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
 import Button from '../components/Button';
+import { colors, spacing, typography } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Home>;
 
@@ -60,39 +61,37 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#282c34',
-        padding: 20,
+        backgroundColor: colors.background.primary,
+        padding: spacing.lg,
     },
     welcomeText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#61DAFB',
-        marginBottom: 10,
+        ...typography.h2,
+        color: colors.text.accent,
+        marginBottom: spacing.sm,
         textAlign: 'center',
     },
     list: {
         flex: 1,
     },
     listContent: {
-        paddingBottom: 20,
+        paddingBottom: spacing.lg,
     },
     item: {
-        backgroundColor: '#20232a',
-        padding: 20,
-        marginVertical: 8,
+        backgroundColor: colors.background.secondary,
+        padding: spacing.lg,
+        marginVertical: spacing.sm,
         borderRadius: 8,
         borderWidth: 2,
-        borderColor: 'transparent',
+        borderColor: colors.border.default,
     },
     itemTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#61DAFB',
+        ...typography.h2,
+        color: colors.text.accent,
         marginBottom: 5,
     },
     itemDescription: {
-        fontSize: 16,
-        color: '#ffffff',
+        ...typography.body,
+        color: colors.text.primary,
     },
 });
 

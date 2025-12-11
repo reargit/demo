@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
+import { colors, spacing, typography } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Details>;
 
@@ -33,32 +34,30 @@ const DetailsScreen = ({ route, navigation }: Props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#282c34',
+        backgroundColor: colors.background.primary,
     },
     content: {
-        padding: 20,
+        padding: spacing.lg,
     },
     title: {
-        fontSize: 36,
-        fontWeight: 'bold',
-        color: '#61DAFB',
-        marginBottom: 20,
+        ...typography.h1,
+        color: colors.text.accent,
+        marginBottom: spacing.lg,
     },
     label: {
-        fontSize: 18,
-        color: '#999',
-        marginTop: 10,
+        ...typography.bodyLarge,
+        color: colors.text.secondary,
+        marginTop: spacing.sm,
     },
     value: {
-        fontSize: 24,
-        color: '#ffffff',
-        marginBottom: 20,
+        ...typography.h2,
+        color: colors.text.primary,
+        marginBottom: spacing.lg,
     },
     description: {
-        fontSize: 18,
-        color: '#ffffff',
-        lineHeight: 28,
-        marginVertical: 20,
+        ...typography.bodyLarge,
+        color: colors.text.primary,
+        marginVertical: spacing.lg,
     },
 });
 

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import { RootStackParamList, Routes } from './routeTypes';
+import { colors } from '../theme';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -15,7 +16,7 @@ const Router = () => {
                 initialRouteName={Routes.Home}
                 screenOptions={{
                     headerStyle: {
-                        backgroundColor: '#61DAFB',
+                        backgroundColor: colors.background.header,
                     },
                     headerTintColor: '#fff',
                     headerTitleStyle: {
