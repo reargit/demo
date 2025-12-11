@@ -19,6 +19,9 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         staleTime: 60_000,
     });
 
+    // Match CatalogListItem height: thumbnail 120 + paddings/title
+    const ITEM_HEIGHT = 180;
+
     const handlePress = useCallback((item: CatalogItem) => {
         navigation.navigate(Routes.Details, {
             itemId: item.id,
@@ -26,8 +29,13 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         });
     }, [navigation]);
 
-    const renderItem = useCallback(({ item }: { item: CatalogItem }) => (
-        <CatalogListItem item={item} onPress={handlePress} />
+    const renderItem = useCallback(({ item, index }: { item: CatalogItem; index: number }) => (
+        <CatalogListItem
+            item={item}
+            onPress={handlePress}
+            style={{ height: ITEM_HEIGHT }}
+            hasTVPreferredFocus={index === 0}
+        />
     ), [handlePress]);
 
 
@@ -47,6 +55,9 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
                 keyExtractor={item => item.id}
                 style={styles.list}
                 contentContainerStyle={styles.listContent}
+                getItemLayout={(_, index) => ({ length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index })}
+                numColumns={3}
+                columnWrapperStyle={styles.column}
                 ListEmptyComponent={isLoading ? <LoadingRow /> : error ? (
                     <Text style={styles.welcomeText}>Failed to load catalog</Text>
                 ) : (
@@ -81,6 +92,9 @@ const styles = StyleSheet.create({
     },
     listContent: {
         paddingBottom: spacing.lg,
+    },
+    column: {
+        gap: spacing.sm,
     },
     errorBox: {
         backgroundColor: colors.background.secondary,
