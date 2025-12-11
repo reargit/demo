@@ -13,7 +13,7 @@ type Props = NativeStackScreenProps<RootStackParamList, Routes.Home>;
 
 
 const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
-    const { data: items = [], isLoading, error } = useQuery<CatalogItem[]>({
+    const { data: items = [], isLoading, error, refetch } = useQuery<CatalogItem[]>({
         queryKey: ['catalog'],
         queryFn: () => catalogApi.getAllItems(),
         staleTime: 60_000,
@@ -30,13 +30,17 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         <CatalogListItem item={item} onPress={handlePress} />
     ), [handlePress]);
 
-    /*  if (isLoading) return <Text style={{ color: "#fff" }}>Loading...</Text>;
-     if (error) return <Text style={{ color: "#fff" }}>Error fetching movies</Text>;
-  */
+
 
     return (
         <View style={styles.container}>
             <Text style={styles.welcomeText}>Welcome to TV Demo!</Text>
+            {error && (
+                <View style={styles.errorBox} accessibilityRole="alert">
+                    <Text style={styles.errorText}>Failed to load catalog</Text>
+                    <Text style={styles.errorHint} onPress={() => refetch()}>Tap to retry</Text>
+                </View>
+            )}
             <FlatList
                 data={items}
                 renderItem={renderItem}
@@ -77,6 +81,25 @@ const styles = StyleSheet.create({
     },
     listContent: {
         paddingBottom: spacing.lg,
+    },
+    errorBox: {
+        backgroundColor: colors.background.secondary,
+        padding: spacing.md,
+        borderRadius: 8,
+        marginBottom: spacing.sm,
+        borderWidth: 1,
+        borderColor: colors.border.subtle,
+    },
+    errorText: {
+        ...typography.bodyLarge,
+        color: colors.text.primary,
+        textAlign: 'center',
+    },
+    errorHint: {
+        ...typography.caption,
+        color: colors.text.accent,
+        textAlign: 'center',
+        marginTop: spacing.xs,
     },
     // Item styles moved to CatalogListItem
 });
