@@ -1,4 +1,3 @@
-// components/PlayButton.tsx
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { colors, spacing } from "../theme";
@@ -15,7 +14,7 @@ const PlayButton = ({ onPress, hasFocus = false }: Props) => {
             onPress={onPress}
             style={[styles.button, hasFocus && styles.focused]}
             activeOpacity={1}
-            focusable={hasFocus} // auto-focus if needed
+            focusable={hasFocus}
         >
             <Text style={styles.text}>▶ Play</Text>
         </TouchableOpacity>

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, type ImageStyle, type StyleProp } from "react-native";
-import { colors, focus } from "../theme";
+import { colors } from "../theme";
 
 interface Props {
     focused: boolean;
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background.overlay,
     },
     thumbnailFocused: {
-        transform: [{ scale: focus.scale }],
+        transform: [{ scale: 1.2 }],
     },
 });
 

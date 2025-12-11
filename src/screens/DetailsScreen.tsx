@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
 import { colors, spacing, typography } from '../theme';
@@ -8,19 +8,17 @@ import PlayButton from '../components/PlayButton';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Details>;
 
-const DetailsScreen = ({ route }: Props) => {
+const DetailsScreen = ({ navigation, route }: Props) => {
     const { item } = route.params;
-    const heroHeight = Math.round(Dimensions.get('window').height * 0.6);
+    const thumHeight = Math.round(Dimensions.get('window').height * 0.6);
 
-    const handlePlay = () => {
-        // TODO: Hook up player screen / react-native-video here
-    };
+    const handlePlay = () => { navigation.navigate(Routes.Play, { uri: item.streamUrl }); }
 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.imageContainer}>
-                    <Thumbnail uri={item.thumbnail} focused={false} style={[styles.image, { height: heroHeight }]} />
+                    <Thumbnail uri={item.thumbnail} focused={false} style={[styles.image, { height: thumHeight }]} />
                     <View style={styles.playButton}  >
                         <PlayButton onPress={handlePlay} />
                     </View>
@@ -55,14 +53,6 @@ const styles = StyleSheet.create({
         top: '50%',
         left: '50%',
         transform: [{ translateX: -36 }, { translateY: -36 }],
-        /*   width: 72,
-          height: 72,
-          borderRadius: 36,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderWidth: 2,
-          borderColor: colors.border.focus, */
     },
     title: {
         ...typography.h1,
