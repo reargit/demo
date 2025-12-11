@@ -21,7 +21,17 @@
       "jest",
       "react-native",
       "react"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ],
+      "test-utils": [
+        "__tests__/utils/testUtils.tsx"
+      ]
+    },
+    "ignoreDeprecations": "6.0"
   },
   "include": [
     "**/*.ts",

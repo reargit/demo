@@ -9,5 +9,5 @@ export enum Routes {
 export type RootStackParamList = {
   [Routes.Home]: undefined;
   [Routes.Details]: { item: CatalogItem };
-  [Routes.Play]: { uri: string };
+  [Routes.Play]: { uri: string, thumbnail: string };
 };

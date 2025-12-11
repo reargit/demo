@@ -1,35 +1,48 @@
-import { Image, StyleSheet, type ImageStyle, type StyleProp } from "react-native";
+import { Image, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { colors } from "../theme";
 
 interface Props {
-    focused: boolean;
     uri: string;
-    style?: StyleProp<ImageStyle>;
+
+    focused?: boolean;
+    style?: StyleProp<ViewStyle>;
+    testID?: string;
 }
-const Thumbnail = ({ focused, uri, style }: Props) => {
+const Thumbnail = ({ focused, uri, style, testID }: Props) => {
 
-
-    return (<Image
-        source={{ uri }}
-        style={[
-            styles.thumbnail,
-            focused ? styles.thumbnailFocused : null,
+    return (
+        <View style={[
+            styles.container,
+            focused ? styles.containerFocused : null,
             style,
-        ]}
-        resizeMode="cover"
-    />)
+        ]} testID={testID}>
+            <Image
+                source={{ uri }}
+                style={styles.image}
+                resizeMode="cover"
+            />
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
-
-    thumbnail: {
+    container: {
         width: '100%',
-        height: 120,
         borderRadius: 6,
         backgroundColor: colors.background.overlay,
+        overflow: 'hidden',
+        position: 'relative',
+        height: 120,
     },
-    thumbnailFocused: {
-        transform: [{ scale: 1.2 }],
+    image: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '200%',
+    },
+    containerFocused: {
+        transform: [{ scale: 1.05 }],
     },
 });
 

@@ -12,13 +12,13 @@ const DetailsScreen = ({ navigation, route }: Props) => {
     const { item } = route.params;
     const thumHeight = Math.round(Dimensions.get('window').height * 0.6);
 
-    const handlePlay = () => { navigation.navigate(Routes.Play, { uri: item.streamUrl }); }
+    const handlePlay = () => { navigation.navigate(Routes.Play, { uri: item.streamUrl, thumbnail: item.thumbnail }); }
 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.imageContainer}>
-                    <Thumbnail uri={item.thumbnail} focused={false} style={[styles.image, { height: thumHeight }]} />
+                    <Thumbnail testID="details-thumbnail" uri={item.thumbnail} style={[{ height: thumHeight }]} />
                     <View style={styles.playButton}  >
                         <PlayButton onPress={handlePlay} />
                     </View>
@@ -43,10 +43,6 @@ const styles = StyleSheet.create({
     imageContainer: {
         position: 'relative',
         width: '100%',
-        marginBottom: spacing.lg,
-    },
-    image: {
-        borderRadius: 12,
     },
     playButton: {
         position: 'absolute',
@@ -58,11 +54,6 @@ const styles = StyleSheet.create({
         ...typography.h1,
         color: colors.text.accent,
         marginBottom: spacing.lg,
-    },
-    label: {
-        ...typography.bodyLarge,
-        color: colors.text.secondary,
-        marginTop: spacing.sm,
     },
     description: {
         ...typography.bodyLarge,

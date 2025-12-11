@@ -19,7 +19,6 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         staleTime: 60_000,
     });
 
-    // Match CatalogListItem height: thumbnail 120 + paddings/title
     const ITEM_HEIGHT = 180;
 
     const handlePress = useCallback((item: CatalogItem) => {
@@ -39,7 +38,7 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.welcomeText}>Welcome to TV Demo!</Text>
+            <Text style={styles.welcomeText}>Welcome</Text>
             {error && (
                 <View style={styles.errorBox} accessibilityRole="alert">
                     <Text style={styles.errorText}>Failed to load catalog</Text>

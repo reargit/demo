@@ -37,7 +37,7 @@ const Router = () => {
                 <Stack.Screen
                     name={Routes.Play}
                     component={PlayScreen}
-                    options={{ headerShown: false }}
+                    options={{ title: 'Play' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

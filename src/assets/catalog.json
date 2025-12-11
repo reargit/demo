@@ -4,7 +4,7 @@
             "id": "bbb-hls",
             "title": "Big Buck Bunny (HLS)",
             "description": "Short animated film used as a demo stream.",
-            "thumbnail": "https://i.imgur.com/8GVG6Zp.jpeg",
+            "thumbnail": "https://i.imgur.com/S4zj5xE.jpeg",
             "streamUrl": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
             "duration": 596
         },
@@ -28,7 +28,7 @@
             "id": "elephants-mp4",
             "title": "Elephant Dream (MP4)",
             "description": "Open movie — MP4 demo.",
-            "thumbnail": "https://i.imgur.com/Yo3j8kG.png",
+            "thumbnail": "https://i.imgur.com/QzBtwrR.jpeg",
             "streamUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
             "duration": 653
         },
@@ -36,7 +36,7 @@
             "id": "bbb-mp4",
             "title": "Big Buck Bunny (MP4)",
             "description": "MP4 fallback of BBB.",
-            "thumbnail": "https://i.imgur.com/8GVG6Zp.jpeg",
+            "thumbnail": "https://i.imgur.com/PJi08Mw.jpeg",
             "streamUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
             "duration": 596
         },
