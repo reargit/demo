@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions, ActivityIndicator, Image, TouchableOpacity, Text, BackHandler } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text, BackHandler } from 'react-native';
 import Video from 'react-native-video';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
@@ -13,6 +13,7 @@ const PlayScreen = ({ route, navigation }: Props) => {
     const [buffering, setBuffering] = useState(true);
     const [loaded, setLoaded] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     useEffect(() => {
         // Android TV hardware back
@@ -46,17 +47,24 @@ const PlayScreen = ({ route, navigation }: Props) => {
                     setLoaded(true);
                     setBuffering(false);
                 }}
-                onError={e => {
-                    console.warn('Video error', e);
+                onError={() => {
+                    setErrorMsg('Unable to play this video. Please try again later.');
                     setBuffering(false);
                 }}
                 onProgress={() => {
                     if (showHeader) setShowHeader(false);
                 }}
             />
-            {buffering && (
+            {(buffering || errorMsg) && (
                 <View style={styles.loadingOverlay} accessibilityLabel="loading">
-                    <ActivityIndicator size="large" color={colors.text.accent} />
+                    {errorMsg ? (
+                        <View style={styles.errorBox} accessibilityRole="alert">
+                            <Text style={styles.errorText}>{errorMsg}</Text>
+                            <Text style={styles.errorHint} onPress={() => navigation.goBack()}>Go back</Text>
+                        </View>
+                    ) : (
+                        <ActivityIndicator size="large" color={colors.text.accent} />
+                    )}
                 </View>
             )}
         </View>
@@ -84,6 +92,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.25)',
+    },
+    errorBox: {
+        backgroundColor: colors.background.secondary,
+        borderColor: colors.border.subtle,
+        borderWidth: 1,
+        padding: 16,
+        borderRadius: 8,
+        maxWidth: 320,
+        alignItems: 'center',
+    },
+    errorText: {
+        color: colors.text.primary,
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 8,
+    },
+    errorHint: {
+        color: colors.text.accent,
+        fontSize: 14,
     },
 });
 
