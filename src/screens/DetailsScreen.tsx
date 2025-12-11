@@ -18,7 +18,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
         <ScrollView style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.imageContainer}>
-                    <Thumbnail uri={item.thumbnail} focused={false} style={[styles.image, { height: thumHeight }]} />
+                    <Thumbnail uri={item.thumbnail} style={[{ height: thumHeight }]} />
                     <View style={styles.playButton}  >
                         <PlayButton onPress={handlePlay} />
                     </View>
@@ -43,9 +43,6 @@ const styles = StyleSheet.create({
     imageContainer: {
         position: 'relative',
         width: '100%',
-    },
-    image: {
-        borderRadius: 12,
     },
     playButton: {
         position: 'absolute',
