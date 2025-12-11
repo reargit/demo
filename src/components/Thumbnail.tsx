@@ -2,12 +2,12 @@ import { Image, StyleSheet, type ImageStyle, type StyleProp } from "react-native
 import { colors } from "../theme";
 
 interface Props {
-    focused: boolean;
     uri: string;
+
+    focused?: boolean;
     style?: StyleProp<ImageStyle>;
 }
 const Thumbnail = ({ focused, uri, style }: Props) => {
-
 
     return (<Image
         source={{ uri }}

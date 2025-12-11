@@ -4,12 +4,12 @@ import Video from 'react-native-video';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
 import { colors } from '../theme';
+import Thumbnail from '../components/Thumbnail';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Play>;
 
 const PlayScreen = ({ route, navigation }: Props) => {
-    const { uri } = route.params;
-    const playerHeight = Math.round(Dimensions.get('window').height);
+    const { uri, thumbnail } = route.params;
     const [buffering, setBuffering] = useState(true);
     const [loaded, setLoaded] = useState(false);
     const [showHeader, setShowHeader] = useState(true);
@@ -31,18 +31,13 @@ const PlayScreen = ({ route, navigation }: Props) => {
 
     return (
         <View style={styles.container}>
-
-            {!loaded && (
-                <Image
-                    source={{ uri }}
-                    style={[styles.poster, { height: playerHeight }]}
-                    resizeMode="cover"
-                    accessibilityLabel="poster"
-                />
+            {!loaded && (<Thumbnail
+                uri={thumbnail}
+                style={[styles.thumb]} />
             )}
             <Video
                 source={{ uri }}
-                style={[styles.video, { height: playerHeight }]}
+                style={[styles.video]}
                 controls
                 resizeMode="contain"
                 paused={false}
@@ -75,23 +70,10 @@ const styles = StyleSheet.create({
     },
     video: {
         flex: 1,
+        height: '100%',
     },
-    backButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        borderRadius: 6,
-        borderWidth: 2,
-        borderColor: colors.border.focus,
-        backgroundColor: 'rgba(0,0,0,0.35)',
-    },
-    poster: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
+    thumb: {
+        height: '100%',
     },
     loadingOverlay: {
         position: 'absolute',

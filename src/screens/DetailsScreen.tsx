@@ -12,7 +12,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
     const { item } = route.params;
     const thumHeight = Math.round(Dimensions.get('window').height * 0.6);
 
-    const handlePlay = () => { navigation.navigate(Routes.Play, { uri: item.streamUrl }); }
+    const handlePlay = () => { navigation.navigate(Routes.Play, { uri: item.streamUrl, thumbnail: item.thumbnail }); }
 
     return (
         <ScrollView style={styles.container}>
