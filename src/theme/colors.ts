@@ -4,7 +4,7 @@ export const colors = {
         primary: '#282c34',
         secondary: '#20232a',
         overlay: '#1a1d23',
-        header: '#004d40',
+        header: '#20232a',
     },
 
     // Text

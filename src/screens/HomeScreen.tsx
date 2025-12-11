@@ -1,62 +1,64 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    TouchableOpacity,
-    Platform,
-} from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
-import Button from '../components/Button';
 import { colors, spacing, typography } from '../theme';
+import { catalogApi } from '../services/catalogApi';
+import type { CatalogItem } from '../types/catalog';
+import { useQuery } from '@tanstack/react-query';
+import CatalogListItem from '../components/CatalogListItem';
+import { useCallback } from 'react';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Home>;
 
-interface ContentItem {
-    id: string;
-    title: string;
-    description: string;
-}
-
-const SAMPLE_DATA: ContentItem[] = [
-    { id: '1', title: 'Item 1', description: 'First sample item' },
-    { id: '2', title: 'Item 2', description: 'Second sample item' },
-    { id: '3', title: 'Item 3', description: 'Third sample item' },
-    { id: '4', title: 'Item 4', description: 'Fourth sample item' },
-    { id: '5', title: 'Item 5', description: 'Fifth sample item' },
-];
 
 const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
-    const renderItem = ({ item }: { item: ContentItem }) => (
-        <TouchableOpacity
-            style={styles.item}
-            onPress={() =>
-                navigation.navigate(Routes.Details, {
-                    itemId: item.id,
-                    title: item.title,
-                })
-            }
-            testID={`item-${item.id}`}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            <Text style={styles.itemDescription}>{item.description}</Text>
-        </TouchableOpacity>
-    );
+    const { data: items = [], isLoading, error } = useQuery<CatalogItem[]>({
+        queryKey: ['catalog'],
+        queryFn: () => catalogApi.getAllItems(),
+        staleTime: 60_000,
+    });
+
+    const handlePress = useCallback((item: CatalogItem) => {
+        navigation.navigate(Routes.Details, {
+            itemId: item.id,
+            title: item.title,
+        });
+    }, [navigation]);
+
+    const renderItem = useCallback(({ item }: { item: CatalogItem }) => (
+        <CatalogListItem item={item} onPress={handlePress} />
+    ), [handlePress]);
+
+    /*  if (isLoading) return <Text style={{ color: "#fff" }}>Loading...</Text>;
+     if (error) return <Text style={{ color: "#fff" }}>Error fetching movies</Text>;
+  */
 
     return (
         <View style={styles.container}>
             <Text style={styles.welcomeText}>Welcome to TV Demo!</Text>
             <FlatList
-                data={SAMPLE_DATA}
+                data={items}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 style={styles.list}
                 contentContainerStyle={styles.listContent}
+                ListEmptyComponent={isLoading ? <LoadingRow /> : error ? (
+                    <Text style={styles.welcomeText}>Failed to load catalog</Text>
+                ) : (
+                    <Text style={styles.welcomeText}>No items</Text>
+                )}
             />
         </View>
     );
 };
+
+const LoadingRow = () => (
+    <View accessibilityLabel="loading-row">
+        <Text style={styles.welcomeText}>Loading…</Text>
+        <Text style={styles.welcomeText}>Fetching catalog</Text>
+    </View>
+);
 
 const styles = StyleSheet.create({
     container: {
@@ -76,23 +78,7 @@ const styles = StyleSheet.create({
     listContent: {
         paddingBottom: spacing.lg,
     },
-    item: {
-        backgroundColor: colors.background.secondary,
-        padding: spacing.lg,
-        marginVertical: spacing.sm,
-        borderRadius: 8,
-        borderWidth: 2,
-        borderColor: colors.border.default,
-    },
-    itemTitle: {
-        ...typography.h2,
-        color: colors.text.accent,
-        marginBottom: 5,
-    },
-    itemDescription: {
-        ...typography.body,
-        color: colors.text.primary,
-    },
+    // Item styles moved to CatalogListItem
 });
 
 export default HomeScreen;

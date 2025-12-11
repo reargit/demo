@@ -20,12 +20,6 @@ const DetailsScreen = ({ route, navigation }: Props) => {
                     This is a detailed view for the selected item. On Android TV, you can
                     navigate using the D-pad on your remote control.
                 </Text>
-
-                <Button
-                    title="Go Back"
-                    onPress={() => navigation.goBack()}
-                    testID="back-button"
-                />
             </View>
         </ScrollView>
     );
