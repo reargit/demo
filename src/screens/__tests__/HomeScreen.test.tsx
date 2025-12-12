@@ -7,9 +7,7 @@ import { Routes } from 'src/routers/routeTypes';
 
 const mockNavigate = jest.fn();
 const mockNavigation = {
-    navigate: mockNavigate,
-    goBack: jest.fn(),
-    setOptions: jest.fn(),
+    navigate: jest.fn(),
 } as any;
 
 const mockRoute = {
