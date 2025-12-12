@@ -1,49 +1,48 @@
 /**
- * Integration Test: Home → Details → Play Navigation Flow
+ * TRUE Integration Test: Home → Details → Play Navigation Flow
  * 
- * Tests the complete user flow through the app:
- * 1. Home screen displays catalog items
- * 2. User selects an item
- * 3. Details screen shows item information
- * 4. User presses play button
- * 5. Play screen starts video playback
+ * This is a real integration test that:
+ * - Renders the full App with NavigationContainer
+ * - Allows real navigation to happen when buttons are pressed
+ * - No manual rerendering or navigation mocking
  */
 
-// Mock only what's necessary - catalogApi and react-native-video
-jest.mock('../../src/services/catalogApi');
+// Mock catalogApi
+jest.mock('../../src/services/catalogApi', () => ({
+    catalogApi: {
+        getAllItems: jest.fn(),
+    },
+}));
+
+// Mock react-native-video
 jest.mock('react-native-video', () => {
     const React = require('react');
     return React.forwardRef((props: any, ref: any) =>
-        React.createElement('Video', { ...props, ref })
+        React.createElement('Video', { ...props, ref, testID: props.testID })
     );
 });
 
 import React from 'react';
-import { screen, waitFor, fireEvent } from '@testing-library/react-native';
-import { render } from '../utils/testUtils';
-import HomeScreen from '../../src/screens/HomeScreen';
-import DetailsScreen from '../../src/screens/DetailsScreen';
-import PlayScreen from '../../src/screens/PlayScreen';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import App from '../../src/App';
 import { catalogApi } from '../../src/services/catalogApi';
 import type { CatalogItem } from '../../src/types/catalog';
 
-// Mock navigation for integration flow
-const createMockNavigation = () => {
-    const navigation = {
-        navigate: jest.fn(),
-        goBack: jest.fn(),
-        setOptions: jest.fn(),
-        push: jest.fn(),
-    } as any;
-    return navigation;
+// Provide initial metrics for SafeAreaProvider
+const initialMetrics = {
+    frame: { x: 0, y: 0, width: 390, height: 844 },
+    insets: { top: 0, left: 0, right: 0, bottom: 0 },
 };
 
-const createMockRoute = (name: string, params?: any) => ({
-    key: name.toLowerCase(),
-    name,
-    params,
-} as any);
-
+// Render with SafeAreaProvider to avoid context issues
+function renderWithProviders(ui: React.ReactElement) {
+    return render(
+        <SafeAreaProvider initialMetrics={initialMetrics}>
+            {ui}
+        </SafeAreaProvider>
+    );
+}
 
 const mockItems: CatalogItem[] = [
     {
@@ -71,60 +70,32 @@ describe('Integration: Home → Details → Play Navigation Flow', () => {
     });
 
     it('completes full navigation flow from Home to Details to Play', async () => {
-        const navigation = createMockNavigation();
-        const route = createMockRoute('Home');
+        // Render the full App - real integration test!
+        renderWithProviders(<App />);
 
-        // 1. Render Home screen
-        const { rerender, getByTestId } = render(<HomeScreen navigation={navigation} route={route} />);
-
-        // 2. Wait for catalog items to load
+        // 1. Wait for Home screen to load with catalog items
         await waitFor(() => {
+            expect(screen.getByText('Welcome')).toBeTruthy();
             expect(screen.getByText('Integration Test Movie')).toBeTruthy();
-        });
+        }, { timeout: 3000 });
 
-        // 3. Press the first catalog item
-        const firstItem = getByTestId('item-1');
+        // 2. Press the first catalog item - navigation happens automatically
+        const firstItem = screen.getByTestId('item-1');
         fireEvent.press(firstItem);
 
-        // 4. Verify navigation to Details was called
-        expect(navigation.navigate).toHaveBeenCalledWith('Details', {
-            item: mockItems[0],
-        });
-
-        // 5. Simulate navigating to Details screen
-        const detailsNavigation = createMockNavigation();
-        const detailsRoute = createMockRoute('Details', { item: mockItems[0] });
-
-        rerender(<DetailsScreen navigation={detailsNavigation} route={detailsRoute} />);
-
-        // 6. Verify Details screen content
+        // 3. Wait for Details screen to appear with item details
         await waitFor(() => {
             expect(screen.getByText('Integration Test Movie')).toBeTruthy();
             expect(screen.getByText('A movie for testing the full navigation flow')).toBeTruthy();
-        });
+        }, { timeout: 2000 });
 
-        // 7. Press the play button
+        // 4. Press the play button - navigation happens automatically
         const playButton = screen.getByTestId('play-button');
         fireEvent.press(playButton);
 
-        // 8. Verify navigation to Play screen
-        expect(detailsNavigation.navigate).toHaveBeenCalledWith('Play', {
-            uri: mockItems[0].streamUrl,
-            thumbnail: mockItems[0].thumbnail,
-        });
-
-        // 9. Simulate navigating to Play screen
-        const playNavigation = createMockNavigation();
-        const playRoute = createMockRoute('Play', {
-            uri: mockItems[0].streamUrl,
-            thumbnail: mockItems[0].thumbnail,
-        });
-
-        rerender(<PlayScreen navigation={playNavigation} route={playRoute} />);
-
-        // 10. Verify Play screen is rendered with video
+        // 5. Wait for Play screen with video player to appear
         await waitFor(() => {
             expect(screen.getByTestId('video-player')).toBeTruthy();
-        });
+        }, { timeout: 2000 });
     });
 });
