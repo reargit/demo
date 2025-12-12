@@ -33,8 +33,23 @@ const renderWithProviders = (
     });
 };
 
+const renderApp = (
+    ui: ReactElement,
+    options?: Omit<RenderOptions, 'wrapper'>,
+) => {
+    return render(ui, {
+        wrapper: ({ children }) => (
+            <SafeAreaProvider initialMetrics={initialMetrics}>
+                {children}
+            </SafeAreaProvider>
+        ),
+        ...options,
+    });
+};
+
+
 // Re-export everything from testing library
 export * from '@testing-library/react-native';
 
 // Override render with our custom version
-export { renderWithProviders as render };
+export { renderWithProviders as render, renderApp };

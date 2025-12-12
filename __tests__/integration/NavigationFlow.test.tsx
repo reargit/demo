@@ -22,7 +22,7 @@ jest.mock('react-native-video', () => {
 });
 
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '../utils/testUtils';
+import { renderApp, screen, waitFor, fireEvent } from '../utils/testUtils';
 import App from '../../src/App';
 import { catalogApi } from '../../src/services/catalogApi';
 import type { CatalogItem } from '../../src/types/catalog';
@@ -56,7 +56,7 @@ describe('Integration: Home → Details → Play Navigation Flow', () => {
 
     it('completes full navigation flow from Home to Details to Play', async () => {
         // Render the full App - real integration test!
-        render(<App />);
+        renderApp(<App />);
 
         // 1. Wait for Home screen to load with catalog items
         await waitFor(() => {
