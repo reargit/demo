@@ -1,67 +1,154 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# TV Demo - React Native Android TV App
 
-# Getting Started
+A React Native TypeScript application built with React Native CLI (bare workflow) specifically configured for Android TV. This project demonstrates a basic TV app with navigation, components, and comprehensive testing.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 🚀 Features
 
-## Step 1: Start Metro
+- **TypeScript** - Full type safety
+- **Android TV Support** - Configured for TV devices and emulators
+- **Navigation** - React Navigation setup with stack navigator
+- **Unit Testing** - Jest and React Native Testing Library
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 📋 Prerequisites
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Before you begin, ensure you have the following installed:
 
-```sh
-# Using npm
+- **Node.js** (>= 18.x)
+- **npm** or **yarn**
+- **JDK** (Java Development Kit 11 or newer)
+- **Android Studio** with:
+  - Android SDK
+  - Android TV Emulator or Physical Android TV Device
+  - SDK Platform 34
+  - Android SDK Build-Tools
+- **React Native CLI**: `npm install -g react-native-cli`
+
+## 🛠️ Setup
+
+### 1. Clone and Install Dependencies
+
+```bash
+# Navigate to project directory
+cd demo
+
+# Install Node dependencies
+npm install
+# or
+yarn install
+```
+
+### 2. Set up Android Environment
+
+Make sure you have the following environment variables set:
+
+```bash
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+Add these to your `~/.zshrc` or `~/.bash_profile` and restart your terminal.
+
+### 3. Create Android TV Emulator
+
+1. Open Android Studio
+2. Go to **Tools → Device Manager** (or AVD Manager)
+3. Click **Create Device**
+4. Select **TV** category
+5. Choose a TV device (e.g., "Android TV (1080p)")
+6. Select a system image (API 34 recommended)
+7. Click **Finish**
+
+### 4. Verify Setup
+
+```bash
+# Check Android environment
+npx react-native doctor
+
+# List available Android devices/emulators
+adb devices
+```
+
+## 🎮 Running the App
+
+### Start Metro Bundler
+
+In one terminal window:
+
+```bash
 npm start
-
-# OR using Yarn
+# or
 yarn start
 ```
 
-## Step 2: Build and run your app
+### Run on Android TV Emulator
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+In another terminal window:
 
-### Android
+```bash
+# Start the emulator (if not already running)
+emulator -avd <your_tv_emulator_name>
 
-```sh
-# Using npm
+# Run the app
 npm run android
-
-# OR using Yarn
+# or
 yarn android
 ```
 
-### iOS
+## 🧪 Running Tests
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+### Run All Tests
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+npm test
+# or
+yarn test
 ```
 
-Then, and every time you update your native dependencies, run:
+### Run Tests in Watch Mode
 
-```sh
-bundle exec pod install
+```bash
+npm run test:watch
+# or
+yarn run test:watch
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### Run Tests with Coverage
 
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+```bash
+npm run test:coverage
+# or
+yarn run test:coverage
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Coverage reports will be generated in the `coverage/` directory.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## 📚 Libraries Used
 
-## Step 3: TODO
+### Core Dependencies
+
+- **react** (19.2.0) - Core React library
+- **react-native** (0.83.0) - React Native framework
+
+### Main functionality
+
+- **react-native-video** - To play video
+- **@tanstack/react-queryo** - For api calls and data cashing
+
+### Navigation
+
+- **@react-navigation/native** (^7.1.25) - Navigation framework to move between screens
+- **@react-navigation/native-stack** (^7.8.6) - Stack navigator for navigation
+- **react-native-safe-area-context** (^5.6.2) - Safe area handling for notches and screen edges
+
+### Development Tools
+
+- **typescript** (5.8.3) - Type safety and better IDE support
+- **eslint** - Code linting
+- **prettier** - Code formatting
+
+## TODO
 
 Hide Back/show back button in Play screen
