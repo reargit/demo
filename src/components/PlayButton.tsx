@@ -15,6 +15,7 @@ const PlayButton = ({ onPress, hasFocus = false }: Props) => {
             style={[styles.button, hasFocus && styles.focused]}
             activeOpacity={1}
             focusable={hasFocus}
+            testID="play-button"
         >
             <Text style={styles.text}>▶ Play</Text>
         </TouchableOpacity>

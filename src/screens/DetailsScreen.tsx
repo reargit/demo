@@ -55,11 +55,6 @@ const styles = StyleSheet.create({
         color: colors.text.accent,
         marginBottom: spacing.lg,
     },
-    label: {
-        ...typography.bodyLarge,
-        color: colors.text.secondary,
-        marginTop: spacing.sm,
-    },
     description: {
         ...typography.bodyLarge,
         color: colors.text.primary,

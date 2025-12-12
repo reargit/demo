@@ -19,7 +19,6 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         staleTime: 60_000,
     });
 
-    // Match CatalogListItem height: thumbnail 120 + paddings/title
     const ITEM_HEIGHT = 180;
 
     const handlePress = useCallback((item: CatalogItem) => {
