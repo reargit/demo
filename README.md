@@ -152,3 +152,5 @@ Coverage reports will be generated in the `coverage/` directory.
 ## TODO
 
 Hide Back/show back button in Play screen
+User real entpoint for data retrieval instead of assets
+Setup Mock service worker to mock api call

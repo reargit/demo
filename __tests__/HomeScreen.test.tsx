@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen, waitFor } from './utils/testUtils';
+import { render, screen, waitFor, fireEvent } from './utils/testUtils';
 import HomeScreen from '../src/screens/HomeScreen';
 import { catalogApi } from '../src/services/catalogApi';
 import type { CatalogItem } from '../src/types/catalog';
+import { Routes } from '../src/routers/routeTypes';
 
 // Mock navigation
 const mockNavigate = jest.fn();
@@ -13,8 +14,8 @@ const mockNavigation = {
 } as any;
 
 const mockRoute = {
-    key: 'home',
-    name: 'Home',
+    key: Routes.Details,
+    name: Routes.Details,
 } as any;
 
 // Mock catalog API
@@ -50,6 +51,7 @@ describe('HomeScreen', () => {
     });
 
     const renderHomeScreen = () => {
+
         return render(
             <HomeScreen navigation={mockNavigation} route={mockRoute} />
         );
@@ -64,6 +66,7 @@ describe('HomeScreen', () => {
 
         expect(screen.getByText('Welcome')).toBeTruthy();
         expect(screen.getByLabelText('loading-row')).toBeTruthy();
+        expect(screen.getByText('Loading…')).toBeTruthy();
     });
 
     it('displays catalog items on successful load', async () => {
@@ -83,7 +86,8 @@ describe('HomeScreen', () => {
         renderHomeScreen();
 
         await waitFor(() => {
-            expect(screen.getByText('Failed to load catalog')).toBeTruthy();
+            const errorTexts = screen.getAllByText('Failed to load catalog');
+            expect(errorTexts.length > 0).toBeTruthy();
             expect(screen.getByText('Tap to retry')).toBeTruthy();
         });
     });
@@ -108,7 +112,7 @@ describe('HomeScreen', () => {
         });
 
         const item = getByTestId('item-1');
-        item.props.onPress();
+        fireEvent.press(item);
 
         expect(mockNavigate).toHaveBeenCalledWith('Details', {
             item: mockItems[0],
@@ -126,3 +130,4 @@ describe('HomeScreen', () => {
         });
     });
 });
+

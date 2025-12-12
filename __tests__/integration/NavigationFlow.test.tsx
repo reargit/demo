@@ -1,7 +1,6 @@
 /**
  * TRUE Integration Test: Home → Details → Play Navigation Flow
  * 
- * This is a real integration test that:
  * - Renders the full App with NavigationContainer
  * - Allows real navigation to happen when buttons are pressed
  * - No manual rerendering or navigation mocking
@@ -23,26 +22,12 @@ jest.mock('react-native-video', () => {
 });
 
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { render, screen, waitFor, fireEvent } from '../utils/testUtils';
 import App from '../../src/App';
 import { catalogApi } from '../../src/services/catalogApi';
 import type { CatalogItem } from '../../src/types/catalog';
 
-// Provide initial metrics for SafeAreaProvider
-const initialMetrics = {
-    frame: { x: 0, y: 0, width: 390, height: 844 },
-    insets: { top: 0, left: 0, right: 0, bottom: 0 },
-};
 
-// Render with SafeAreaProvider to avoid context issues
-function renderWithProviders(ui: React.ReactElement) {
-    return render(
-        <SafeAreaProvider initialMetrics={initialMetrics}>
-            {ui}
-        </SafeAreaProvider>
-    );
-}
 
 const mockItems: CatalogItem[] = [
     {
@@ -71,7 +56,7 @@ describe('Integration: Home → Details → Play Navigation Flow', () => {
 
     it('completes full navigation flow from Home to Details to Play', async () => {
         // Render the full App - real integration test!
-        renderWithProviders(<App />);
+        render(<App />);
 
         // 1. Wait for Home screen to load with catalog items
         await waitFor(() => {
