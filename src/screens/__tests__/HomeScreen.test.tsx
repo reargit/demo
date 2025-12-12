@@ -1,11 +1,10 @@
 import React from 'react';
-import { renderApiScreen, screen, waitFor, fireEvent } from 'test-utils';
+import { renderApiScreen, screen, waitFor } from 'test-utils';
 import HomeScreen from 'src/screens/HomeScreen';
 import { catalogApi } from 'src/services/catalogApi';
 import type { CatalogItem } from 'src/types/catalog';
 import { Routes } from 'src/routers/routeTypes';
 
-// Mock navigation
 const mockNavigate = jest.fn();
 const mockNavigation = {
     navigate: mockNavigate,
@@ -14,11 +13,10 @@ const mockNavigation = {
 } as any;
 
 const mockRoute = {
-    key: Routes.Details,
-    name: Routes.Details,
+    key: 'home',
+    name: Routes.Home,
 } as any;
 
-// Mock catalog API
 jest.mock('src/services/catalogApi', () => ({
     catalogApi: {
         getAllItems: jest.fn(),
@@ -58,7 +56,7 @@ describe('HomeScreen', () => {
 
     it('displays loading state initially', async () => {
         (catalogApi.getAllItems as jest.Mock).mockImplementation(
-            () => new Promise(() => { }) // Never resolves
+            () => new Promise(() => { })
         );
 
         renderHomeScreen();
@@ -100,34 +98,6 @@ describe('HomeScreen', () => {
 
         await waitFor(() => {
             expect(screen.getByText('No items')).toBeTruthy();
-        });
-    });
-
-    it('navigates to Details screen when item is pressed', async () => {
-        (catalogApi.getAllItems as jest.Mock).mockResolvedValue(mockItems);
-
-        const { getByTestId } = renderHomeScreen();
-
-        await waitFor(() => {
-            expect(screen.getByText('Test Item 1')).toBeTruthy();
-        });
-
-        const item = getByTestId('item-1');
-        fireEvent.press(item);
-
-        expect(mockNavigate).toHaveBeenCalledWith('Details', {
-            item: mockItems[0],
-        });
-    });
-
-    it('renders grid with 3 columns', async () => {
-        (catalogApi.getAllItems as jest.Mock).mockResolvedValue(mockItems);
-
-        const { getByTestId } = renderHomeScreen();
-
-        await waitFor(() => {
-            expect(getByTestId('item-1')).toBeTruthy();
-            expect(getByTestId('item-2')).toBeTruthy();
         });
     });
 });

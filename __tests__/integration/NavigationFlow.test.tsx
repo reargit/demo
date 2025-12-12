@@ -1,19 +1,9 @@
-/**
- * TRUE Integration Test: Home → Details → Play Navigation Flow
- * 
- * - Renders the full App with NavigationContainer
- * - Allows real navigation to happen when buttons are pressed
- * - No manual rerendering or navigation mocking
- */
-
-// Mock catalogApi
 jest.mock('src/services/catalogApi', () => ({
     catalogApi: {
         getAllItems: jest.fn(),
     },
 }));
 
-// Mock react-native-video
 jest.mock('react-native-video', () => {
     const React = require('react');
     return React.forwardRef((props: any, ref: any) =>
@@ -48,14 +38,13 @@ const mockItems: CatalogItem[] = [
     },
 ];
 
-describe('Integration: Home → Details → Play Navigation Flow', () => {
+describe('Integration: Home -> Details -> Play Navigation Flow', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         (catalogApi.getAllItems as jest.Mock).mockResolvedValue(mockItems);
     });
 
     it('completes full navigation flow from Home to Details to Play', async () => {
-        // Render the full App - real integration test!
         renderApp(<App />);
 
         // 1. Wait for Home screen to load with catalog items
