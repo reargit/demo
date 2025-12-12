@@ -8,7 +8,7 @@ const initialMetrics = {
     insets: { top: 0, left: 0, right: 0, bottom: 0 },
 };
 
-const renderWithProviders = (
+const renderApiScreen = (
     ui: ReactElement,
     options?: Omit<RenderOptions, 'wrapper'>,
 ) => {
@@ -37,6 +37,8 @@ const renderApp = (
     ui: ReactElement,
     options?: Omit<RenderOptions, 'wrapper'>,
 ) => {
+
+
     return render(ui, {
         wrapper: ({ children }) => (
             <SafeAreaProvider initialMetrics={initialMetrics}>
@@ -52,4 +54,4 @@ const renderApp = (
 export * from '@testing-library/react-native';
 
 // Override render with our custom version
-export { renderWithProviders as render, renderApp };
+export { renderApiScreen, renderApp };

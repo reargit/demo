@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from './utils/testUtils';
+import { renderApiScreen, screen, waitFor, fireEvent } from './utils/testUtils';
 import HomeScreen from '../src/screens/HomeScreen';
 import { catalogApi } from '../src/services/catalogApi';
 import type { CatalogItem } from '../src/types/catalog';
@@ -52,7 +52,7 @@ describe('HomeScreen', () => {
 
     const renderHomeScreen = () => {
 
-        return render(
+        return renderApiScreen(
             <HomeScreen navigation={mockNavigation} route={mockRoute} />
         );
     };
