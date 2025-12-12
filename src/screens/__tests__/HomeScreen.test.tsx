@@ -56,16 +56,18 @@ describe('HomeScreen', () => {
         );
     };
 
-    it('displays loading state initially', () => {
+    it('displays loading state initially', async () => {
         (catalogApi.getAllItems as jest.Mock).mockImplementation(
             () => new Promise(() => { }) // Never resolves
         );
 
         renderHomeScreen();
 
-        expect(screen.getByText('Welcome')).toBeTruthy();
-        expect(screen.getByLabelText('loading-row')).toBeTruthy();
-        expect(screen.getByText('Loading…')).toBeTruthy();
+        await waitFor(() => {
+            expect(screen.getByText('Welcome')).toBeTruthy();
+            expect(screen.getByLabelText('loading-row')).toBeTruthy();
+            expect(screen.getByText('Loading…')).toBeTruthy();
+        });
     });
 
     it('displays catalog items on successful load', async () => {
