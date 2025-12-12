@@ -42,6 +42,7 @@ const PlayScreen = ({ route, navigation }: Props) => {
                 controls
                 resizeMode="contain"
                 paused={false}
+                testID="video-player"
                 onBuffer={({ isBuffering }) => setBuffering(isBuffering)}
                 onLoad={() => {
                     setLoaded(true);
