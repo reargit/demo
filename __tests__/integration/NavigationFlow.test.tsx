@@ -7,7 +7,7 @@
  */
 
 // Mock catalogApi
-jest.mock('../../src/services/catalogApi', () => ({
+jest.mock('src/services/catalogApi', () => ({
     catalogApi: {
         getAllItems: jest.fn(),
     },
@@ -22,10 +22,10 @@ jest.mock('react-native-video', () => {
 });
 
 import React from 'react';
-import { renderApp, screen, waitFor, fireEvent } from '../utils/testUtils';
-import App from '../../src/App';
-import { catalogApi } from '../../src/services/catalogApi';
-import type { CatalogItem } from '../../src/types/catalog';
+import { renderApp, screen, waitFor, fireEvent } from 'test-utils';
+import App from 'src/App';
+import { catalogApi } from 'src/services/catalogApi';
+import type { CatalogItem } from 'src/types/catalog';
 
 
 

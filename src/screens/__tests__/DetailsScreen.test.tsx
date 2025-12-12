@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { render, screen, fireEvent } from 'test-utils';
 import { ScrollView } from 'react-native';
-import DetailsScreen from '../../src/screens/DetailsScreen';
-import type { CatalogItem } from '../../src/types/catalog';
+import DetailsScreen from 'src/screens/DetailsScreen';
+import type { CatalogItem } from 'src/types/catalog';
 
 // Mock navigation
 const mockNavigate = jest.fn();
