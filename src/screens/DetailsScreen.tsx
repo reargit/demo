@@ -18,7 +18,7 @@ const DetailsScreen = ({ navigation, route }: Props) => {
         <ScrollView style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.imageContainer}>
-                    <Thumbnail uri={item.thumbnail} style={[{ height: thumHeight }]} />
+                    <Thumbnail testID="details-thumbnail" uri={item.thumbnail} style={[{ height: thumHeight }]} />
                     <View style={styles.playButton}  >
                         <PlayButton onPress={handlePlay} />
                     </View>

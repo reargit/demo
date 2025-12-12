@@ -6,15 +6,16 @@ interface Props {
 
     focused?: boolean;
     style?: StyleProp<ViewStyle>;
+    testID?: string;
 }
-const Thumbnail = ({ focused, uri, style }: Props) => {
+const Thumbnail = ({ focused, uri, style, testID }: Props) => {
 
     return (
         <View style={[
             styles.container,
             focused ? styles.containerFocused : null,
             style,
-        ]}>
+        ]} testID={testID}>
             <Image
                 source={{ uri }}
                 style={styles.image}

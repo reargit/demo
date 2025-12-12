@@ -1,9 +1,9 @@
 import React from 'react';
-import { renderApiScreen, screen, waitFor, fireEvent } from './utils/testUtils';
-import HomeScreen from '../src/screens/HomeScreen';
-import { catalogApi } from '../src/services/catalogApi';
-import type { CatalogItem } from '../src/types/catalog';
-import { Routes } from '../src/routers/routeTypes';
+import { renderApiScreen, screen, waitFor, fireEvent } from '../utils/testUtils';
+import HomeScreen from '../../src/screens/HomeScreen';
+import { catalogApi } from '../../src/services/catalogApi';
+import type { CatalogItem } from '../../src/types/catalog';
+import { Routes } from '../../src/routers/routeTypes';
 
 // Mock navigation
 const mockNavigate = jest.fn();
@@ -19,7 +19,7 @@ const mockRoute = {
 } as any;
 
 // Mock catalog API
-jest.mock('../src/services/catalogApi', () => ({
+jest.mock('../../src/services/catalogApi', () => ({
     catalogApi: {
         getAllItems: jest.fn(),
     },
@@ -51,7 +51,6 @@ describe('HomeScreen', () => {
     });
 
     const renderHomeScreen = () => {
-
         return renderApiScreen(
             <HomeScreen navigation={mockNavigation} route={mockRoute} />
         );

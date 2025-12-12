@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import DetailsScreen from '../src/screens/DetailsScreen';
-import type { CatalogItem } from '../src/types/catalog';
+import { ScrollView } from 'react-native';
+import DetailsScreen from '../../src/screens/DetailsScreen';
+import type { CatalogItem } from '../../src/types/catalog';
 
 // Mock navigation
 const mockNavigate = jest.fn();
@@ -39,31 +40,31 @@ describe('DetailsScreen', () => {
     });
 
     it('displays thumbnail image', () => {
-        const { UNSAFE_getByType } = render(
+        render(
             <DetailsScreen navigation={mockNavigation} route={mockRoute} />
         );
 
-        // Check that Thumbnail component is rendered
-        const thumbnail = UNSAFE_getByType(require('../src/components/Thumbnail').default);
+        // Prefer querying by a stable testID rather than component type
+        const thumbnail = screen.getByTestId('details-thumbnail');
         expect(thumbnail).toBeTruthy();
     });
 
     it('displays play button', () => {
-        const { UNSAFE_getByType } = render(
+        render(
             <DetailsScreen navigation={mockNavigation} route={mockRoute} />
         );
 
-        // Check that PlayButton component is rendered
-        const playButton = UNSAFE_getByType(require('../src/components/PlayButton').default);
+        // Use built-in testID from PlayButton
+        const playButton = screen.getByTestId('play-button');
         expect(playButton).toBeTruthy();
     });
 
     it('navigates to Play screen when play button is pressed', () => {
-        const { UNSAFE_getByType } = render(
+        render(
             <DetailsScreen navigation={mockNavigation} route={mockRoute} />
         );
 
-        const playButton = UNSAFE_getByType(require('../src/components/PlayButton').default);
+        const playButton = screen.getByTestId('play-button');
         fireEvent.press(playButton);
 
         expect(mockNavigate).toHaveBeenCalledWith('Play', {
@@ -77,16 +78,16 @@ describe('DetailsScreen', () => {
             <DetailsScreen navigation={mockNavigation} route={mockRoute} />
         );
 
-        const scrollView = UNSAFE_getByType(require('react-native').ScrollView);
+        const scrollView = UNSAFE_getByType(ScrollView);
         expect(scrollView).toBeTruthy();
     });
 
     it('calculates thumbnail height as 60% of window height', () => {
-        const { UNSAFE_getByType } = render(
+        render(
             <DetailsScreen navigation={mockNavigation} route={mockRoute} />
         );
 
-        const thumbnail = UNSAFE_getByType(require('../src/components/Thumbnail').default);
+        const thumbnail = screen.getByTestId('details-thumbnail');
         const heightStyle = thumbnail.props.style.find((s: any) => s && s.height);
 
         expect(heightStyle).toBeDefined();
