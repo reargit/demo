@@ -2,7 +2,9 @@
 
 A React Native TypeScript application built with React Native CLI (bare workflow) specifically configured for Android TV. This project demonstrates a basic TV app with navigation, components, and comprehensive testing.
 
-<video src="docs/demo.mp4" width="800" controls autoplay muted loop></video>
+![TV Demo](docs/demo.gif)
+
+[Watch demo (MP4)](docs/demo.mp4)
 
 ## 🚀 Features
 
