@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, ViewStyle } from 'react-native';
+import { Animated, StyleSheet, ViewStyle } from 'react-native';
+import { colors } from '../theme';
 
 export interface SkeletonViewProps {
     style?: ViewStyle;
     testID?: string;
 }
 
-const SkeletonView: React.FC<SkeletonViewProps> = ({ style, testID }) => {
+const Skeleton: React.FC<SkeletonViewProps> = ({ style, testID }) => {
     const shimmerAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -36,10 +37,19 @@ const SkeletonView: React.FC<SkeletonViewProps> = ({ style, testID }) => {
 
     return (
         <Animated.View
-            style={[style, { opacity }]}
+            style={[styles.bacground, style, { opacity }]}
             testID={testID}
         />
     );
 };
 
-export default SkeletonView;
+
+
+const styles = StyleSheet.create({
+    bacground: {
+        backgroundColor: colors.background.skeleton,
+        borderRadius: 4,
+    },
+});
+
+export default Skeleton;

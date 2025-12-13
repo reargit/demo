@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderApiScreen, screen, waitFor } from 'test-utils';
-import HomeScreen from 'src/screens/HomeScreen';
+import HomeScreen from 'src/screens/HomeScreen/HomeScreen';
 import { catalogApi } from 'src/services/catalogApi';
 import type { CatalogItem } from 'src/types/catalog';
 import { Routes } from 'src/routers/routeTypes';

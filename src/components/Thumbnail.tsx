@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background.overlay,
         overflow: 'hidden',
         position: 'relative',
-        height: 120,
+        height: '100%',
     },
     image: {
         position: 'absolute',
