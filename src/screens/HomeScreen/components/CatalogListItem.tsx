@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
-import type { CatalogItem } from '../types/catalog';
-import { colors, spacing, typography } from '../theme';
-import Thumbnail from './Thumbnail';
+import type { CatalogItem } from '../../../types/catalog';
+import { colors, typography } from '../../../theme';
+import Thumbnail from '../../../components/Thumbnail';
+import { homeStyles } from '../styles';
 
 export interface CatalogListItemProps {
     item: CatalogItem;
@@ -16,7 +17,7 @@ export const CatalogListItem: React.FC<CatalogListItemProps> = ({ item, onPress,
     const [focused, setFocused] = useState(false);
     return (
         <TouchableOpacity
-            style={[styles.item, focused ? styles.itemFocused : null, style]}
+            style={[homeStyles.catalogItem, focused ? styles.itemFocused : null, style]}
             onPress={() => onPress(item)}
             testID={testID ?? `item-${item.id}`}
             accessibilityRole="button"
@@ -24,22 +25,13 @@ export const CatalogListItem: React.FC<CatalogListItemProps> = ({ item, onPress,
             onBlur={() => setFocused(false)}
             focusable={hasTVPreferredFocus}
         >
-            <Thumbnail focused={focused} uri={item.thumbnail} />
+            <Thumbnail focused={focused} uri={item.thumbnail} style={homeStyles.catalogItemThumbnail} />
             <Text style={styles.itemTitle} numberOfLines={1}>{item.title}</Text>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
-    item: {
-        flex: 1,
-        backgroundColor: colors.background.secondary,
-        padding: spacing.md,
-        marginVertical: spacing.sm,
-        borderRadius: 8,
-        borderWidth: 2,
-        borderColor: colors.border.default,
-    },
     itemFocused: {
         borderColor: colors.border.focus,
         backgroundColor: colors.background.overlay,

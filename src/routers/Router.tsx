@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import { RootStackParamList, Routes } from './routeTypes';
 import { colors } from '../theme';

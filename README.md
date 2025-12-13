@@ -13,7 +13,7 @@ A React Native TypeScript application built with React Native CLI (bare workflow
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js** (>= 18.x)
+- **Node.js** (>= 20.x)
 - **npm** or **yarn**
 - **JDK** (Java Development Kit 11 or newer)
 - **Android Studio** with:
@@ -71,24 +71,12 @@ npx react-native doctor
 adb devices
 ```
 
-## 🎮 Running the App
-
-### Start Metro Bundler
-
-In one terminal window:
-
-```bash
-npm start
-# or
-yarn start
-```
-
 ### Run on Android TV Emulator
 
 In another terminal window:
 
 ```bash
-# Start the emulator (if not already running)
+# Start the emulator (if not already running) or open emulator manually
 emulator -avd <your_tv_emulator_name>
 
 # Run the app

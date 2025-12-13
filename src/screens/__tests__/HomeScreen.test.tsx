@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderApiScreen, screen, waitFor } from 'test-utils';
-import HomeScreen from 'src/screens/HomeScreen';
+import HomeScreen from 'src/screens/HomeScreen/HomeScreen';
 import { catalogApi } from 'src/services/catalogApi';
 import type { CatalogItem } from 'src/types/catalog';
 import { Routes } from 'src/routers/routeTypes';
@@ -61,8 +61,9 @@ describe('HomeScreen', () => {
 
         await waitFor(() => {
             expect(screen.getByText('Welcome')).toBeTruthy();
-            expect(screen.getByLabelText('loading-row')).toBeTruthy();
-            expect(screen.getByText('Loading…')).toBeTruthy();
+            // Skeletons are shown during loading
+            expect(screen.getByTestId('skeleton-0')).toBeTruthy();
+            expect(screen.getByTestId('skeleton-5')).toBeTruthy();
         });
     });
 
@@ -71,10 +72,16 @@ describe('HomeScreen', () => {
 
         renderHomeScreen();
 
+        // First verify skeletons are shown during loading
+        await waitFor(() => {
+            expect(screen.getByTestId('skeleton-0')).toBeTruthy();
+        });
+
+        // Then verify items appear after loading
         await waitFor(() => {
             expect(screen.getByText('Test Item 1')).toBeTruthy();
             expect(screen.getByText('Test Item 2')).toBeTruthy();
-        });
+        }, { timeout: 3000 });
     });
 
     it('displays error message when API fails', async () => {
@@ -94,9 +101,15 @@ describe('HomeScreen', () => {
 
         renderHomeScreen();
 
+        // First verify skeletons are shown during loading
+        await waitFor(() => {
+            expect(screen.getByTestId('skeleton-0')).toBeTruthy();
+        });
+
+        // Then verify empty state appears after loading completes
         await waitFor(() => {
             expect(screen.getByText('No items')).toBeTruthy();
-        });
+        }, { timeout: 3000 });
     });
 });
 

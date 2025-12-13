@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList, Routes } from '../routers/routeTypes';
 import { colors, spacing, typography } from '../theme';
@@ -15,20 +15,18 @@ const DetailsScreen = ({ navigation, route }: Props) => {
     const handlePlay = () => { navigation.navigate(Routes.Play, { uri: item.streamUrl, thumbnail: item.thumbnail }); }
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.content}>
-                <View style={styles.imageContainer}>
-                    <Thumbnail testID="details-thumbnail" uri={item.thumbnail} style={[{ height: thumHeight }]} />
-                    <View style={styles.playButton}  >
-                        <PlayButton onPress={handlePlay} />
-                    </View>
+        <View style={styles.container}>
+            <View style={styles.imageContainer}>
+                <Thumbnail testID="details-thumbnail" uri={item.thumbnail} style={[styles.img, { height: thumHeight }]} />
+                <View style={styles.playButton}  >
+                    <PlayButton onPress={handlePlay} />
                 </View>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.description}>
-                    {item.description}
-                </Text>
             </View>
-        </ScrollView>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.description}>
+                {item.description}
+            </Text>
+        </View>
     );
 };
 
@@ -36,13 +34,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background.primary,
-    },
-    content: {
         padding: spacing.lg,
+        rowGap: spacing.lg,
+    },
+    img: {
+        overflow: 'hidden',
+        position: 'relative',
     },
     imageContainer: {
         position: 'relative',
-        width: '100%',
     },
     playButton: {
         position: 'absolute',
@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     title: {
         ...typography.h1,
         color: colors.text.accent,
-        marginBottom: spacing.lg,
     },
     description: {
         ...typography.bodyLarge,

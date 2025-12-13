@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList, Routes } from '../routers/routeTypes';
-import { colors, spacing, typography } from '../theme';
-import { catalogApi } from '../services/catalogApi';
-import type { CatalogItem } from '../types/catalog';
+import { RootStackParamList, Routes } from '../../routers/routeTypes';
+import { colors, spacing, typography } from '../../theme';
+import { catalogApi } from '../../services/catalogApi';
+import type { CatalogItem } from '../../types/catalog';
 import { useQuery } from '@tanstack/react-query';
-import CatalogListItem from '../components/CatalogListItem';
+import CatalogListItem from './components/CatalogListItem';
+import CatalogListItemSkeleton from './components/CatalogListItemSkeleton';
 import { useCallback } from 'react';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Home>;
@@ -34,7 +35,14 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         />
     ), [handlePress]);
 
+    const renderSkeleton = useCallback(({ index }: { index: number }) => (
+        <CatalogListItemSkeleton
+            style={{ height: ITEM_HEIGHT }}
+            testID={`skeleton-${index}`}
+        />
+    ), []);
 
+    const skeletonData = isLoading ? Array(6).fill(null).map((_, i) => ({ id: `skeleton-${i}`, index: i } as any)) : [];
 
     return (
         <View style={styles.container}>
@@ -46,30 +54,22 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
                 </View>
             )}
             <FlatList
-                data={items}
-                renderItem={renderItem}
+                data={isLoading ? skeletonData : items}
+                renderItem={isLoading ? renderSkeleton : renderItem}
                 keyExtractor={item => item.id}
-                style={styles.list}
-                contentContainerStyle={styles.listContent}
                 getItemLayout={(_, index) => ({ length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index })}
                 numColumns={3}
                 columnWrapperStyle={styles.column}
-                ListEmptyComponent={isLoading ? <LoadingRow /> : error ? (
+                ListEmptyComponent={!isLoading && error ? (
                     <Text style={styles.welcomeText}>Failed to load catalog</Text>
-                ) : (
+                ) : !isLoading && items.length === 0 ? (
                     <Text style={styles.welcomeText}>No items</Text>
-                )}
+                ) : null}
             />
         </View>
     );
 };
 
-const LoadingRow = () => (
-    <View accessibilityLabel="loading-row">
-        <Text style={styles.welcomeText}>Loading…</Text>
-        <Text style={styles.welcomeText}>Fetching catalog</Text>
-    </View>
-);
 
 const styles = StyleSheet.create({
     container: {
@@ -82,12 +82,6 @@ const styles = StyleSheet.create({
         color: colors.text.accent,
         marginBottom: spacing.sm,
         textAlign: 'center',
-    },
-    list: {
-        flex: 1,
-    },
-    listContent: {
-        paddingBottom: spacing.lg,
     },
     column: {
         gap: spacing.sm,
@@ -111,7 +105,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: spacing.xs,
     },
-    // Item styles moved to CatalogListItem
 });
 
 export default HomeScreen;
