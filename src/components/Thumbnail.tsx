@@ -1,15 +1,14 @@
 import { Image, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
-import { colors } from "../theme";
+
 
 interface Props {
     uri: string;
-
+    height?: number;
     focused?: boolean;
     style?: StyleProp<ViewStyle>;
     testID?: string;
 }
-const Thumbnail = ({ focused, uri, style, testID }: Props) => {
-
+const Thumbnail = ({ focused, uri, style, testID, height }: Props) => {
     return (
         <View style={[
             styles.container,
@@ -18,7 +17,7 @@ const Thumbnail = ({ focused, uri, style, testID }: Props) => {
         ]} testID={testID}>
             <Image
                 source={{ uri }}
-                style={styles.image}
+                style={[styles.image, height ? { height } : null]}
                 resizeMode="cover"
             />
         </View>
@@ -27,19 +26,12 @@ const Thumbnail = ({ focused, uri, style, testID }: Props) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
         borderRadius: 6,
-        backgroundColor: colors.background.overlay,
-        overflow: 'hidden',
-        position: 'relative',
-        height: '100%',
     },
     image: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
         width: '100%',
-        height: '200%',
+        height: undefined,
+        aspectRatio: 1,
     },
     containerFocused: {
         transform: [{ scale: 1.05 }],

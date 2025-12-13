@@ -13,9 +13,6 @@ export const homeStyles = StyleSheet.create({
         borderColor: colors.border.default,
     },
     catalogItemThumbnail: {
-        width: '100%',
-        borderRadius: 6,
-        backgroundColor: colors.background.overlay,
         overflow: 'hidden',
         position: 'relative',
         height: 120,
