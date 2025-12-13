@@ -7,6 +7,7 @@ import { catalogApi } from '../services/catalogApi';
 import type { CatalogItem } from '../types/catalog';
 import { useQuery } from '@tanstack/react-query';
 import CatalogListItem from '../components/CatalogListItem';
+import CatalogListItemSkeleton from '../components/CatalogListItemSkeleton';
 import { useCallback } from 'react';
 
 type Props = NativeStackScreenProps<RootStackParamList, Routes.Home>;
@@ -34,7 +35,14 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
         />
     ), [handlePress]);
 
+    const renderSkeleton = useCallback(({ index }: { index: number }) => (
+        <CatalogListItemSkeleton
+            style={{ height: ITEM_HEIGHT }}
+            testID={`skeleton-${index}`}
+        />
+    ), []);
 
+    const skeletonData = !isLoading ? Array(6).fill(null).map((_, i) => ({ id: `skeleton-${i}`, index: i })) : [];
 
     return (
         <View style={styles.container}>
@@ -46,30 +54,24 @@ const HomeScreen = ({ navigation }: Props): React.JSX.Element => {
                 </View>
             )}
             <FlatList
-                data={items}
-                renderItem={renderItem}
+                data={!isLoading ? skeletonData : items}
+                renderItem={!isLoading ? renderSkeleton : renderItem}
                 keyExtractor={item => item.id}
                 style={styles.list}
                 contentContainerStyle={styles.listContent}
                 getItemLayout={(_, index) => ({ length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index })}
                 numColumns={3}
                 columnWrapperStyle={styles.column}
-                ListEmptyComponent={isLoading ? <LoadingRow /> : error ? (
+                ListEmptyComponent={!isLoading && error ? (
                     <Text style={styles.welcomeText}>Failed to load catalog</Text>
-                ) : (
+                ) : !isLoading && items.length === 0 ? (
                     <Text style={styles.welcomeText}>No items</Text>
-                )}
+                ) : null}
             />
         </View>
     );
 };
 
-const LoadingRow = () => (
-    <View accessibilityLabel="loading-row">
-        <Text style={styles.welcomeText}>Loading…</Text>
-        <Text style={styles.welcomeText}>Fetching catalog</Text>
-    </View>
-);
 
 const styles = StyleSheet.create({
     container: {

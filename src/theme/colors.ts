@@ -5,6 +5,7 @@ export const colors = {
         secondary: '#20232a',
         overlay: '#1a1d23',
         header: '#20232a',
+        skeleton: '#3a3f47',
     },
 
     // Text
