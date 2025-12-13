@@ -2,6 +2,8 @@
 
 A React Native TypeScript application built with React Native CLI (bare workflow) specifically configured for Android TV. This project demonstrates a basic TV app with navigation, components, and comprehensive testing.
 
+![TV Demo](docs/demo.gif)
+
 ## 🚀 Features
 
 - **TypeScript** - Full type safety
